@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class App {
@@ -18,7 +19,7 @@ public class App {
 
         em.getTransaction().begin();
 
-        uploadDB(em);
+      //  uploadDB(em);
         System.out.println();
         System.out.println("Task 1");
         em.createQuery("SELECT u FROM User u", User.class).getResultList().forEach(System.out::println);
@@ -38,9 +39,28 @@ public class App {
         System.out.println("Task 6");
         em.createQuery("SELECT c FROM City c WHERE c.name like '%n_' OR c.name like '%r_'", City.class).getResultList().forEach(System.out::println);
         System.out.println();
+        System.out.println("Task 7  ");
+        em.createQuery("SELECT u FROM User u WHERE u.age = (SELECT MIN(uu.age) FROM User uu)", User.class).getResultList().forEach(System.out::println);
+//        System.out.println(usr);
+        System.out.println();
         System.out.println("Task 8");
         double u = em.createQuery("SELECT avg(u.age) FROM User u", Double.class).getSingleResult();
         System.out.println(u);
+        System.out.println();
+        System.out.println("Task 9");
+        List<Object[]> usr2 = em.createQuery("SELECT u, c FROM User u LEFT JOIN FETCH u.cityList c")
+
+                .getResultList();
+       System.out.println(usr2);
+
+
+        //usr2.getCityList().forEach(System.out::println);
+//        System.out.println();
+//        System.out.println("Task 10");
+//        Map<User, City> usr3 = em.createQuery("SELECT u FROM User u LEFT JOIN FETCH u.cityList c WHERE u.id NOT IN (2, 5, 9, 12, 13, 16)", User.class)
+//                .getResultList();
+//        System.out.println(usr3);
+
 
         em.getTransaction().commit();
 
