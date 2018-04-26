@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@ToString(callSuper = true,exclude = "cityList")
+@ToString(callSuper = true)
 public class User extends BaseEntity {
 
     @Column(name = "full_name", length = 150)
@@ -17,9 +17,9 @@ public class User extends BaseEntity {
 
     private int age;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
     })
-    @JoinTable(name = "user_city", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "city_id"))
-    private List<City> cityList = new ArrayList<>();
+    @JoinColumn(name = "city_id")
+    private City city;
 }

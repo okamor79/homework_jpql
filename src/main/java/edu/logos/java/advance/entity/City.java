@@ -14,16 +14,15 @@ public class City extends BaseEntity {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {
+    @ManyToOne( cascade = {
             CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
     })
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+    @OneToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
-    })
-    @JoinTable(name = "user_city", joinColumns = @JoinColumn(name = "city_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    }, mappedBy = "city")
     private List<User> userList = new ArrayList<>();
 
 }
